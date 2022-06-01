@@ -1,0 +1,38 @@
+{% extends "AppDesafio/padre.html" %}
+{% load static %}
+
+{% block TituloInicio %}
+<header class="masthead">
+    <div class="container">
+        <div class="masthead-heading text-uppercase">Busqueda de mascotas</div>
+    </div>
+</header>
+{% endblock %}
+
+
+{% block contenidoQueCambia %}
+
+                
+<form action="{% url 'resultados' %}" method ="GET" id="contactForm">
+
+<div class="text-center">
+    <h1 class="section-heading text-uppercase">Buscar animal</h2>
+        <br>
+
+</div>
+<div class="row align-items-stretch mb-5" style="margin-left:32%">
+    <div class="col-md-6">
+        <div class="form-group">
+
+            <input class="form-control" name="especie" type="text" placeholder="Especie" data-sb-validations="required" />
+
+        </div>
+
+    </div>
+</div>
+
+<div class="text-center"><button class="btn btn-primary btn-xl text-uppercase" id="submitButton" type="submit">Buscar</button></div>
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "AppDesafio/padre.html" %}
+{% load static %}
+
+{% block TituloInicio %}
+<header class="masthead">
+    <div class="container">
+        <div class="masthead-heading text-uppercase">Aceptamos tu mascota!</div>
+    </div>
+</header>
+{% endblock %}
+
+
+{% block contenidoQueCambia %}
+
+                
+<form action="{% url 'formulario' %}" method ="POST" id="contactForm">
+    {% csrf_token %}  
+    <div class="text-center">
+        <h1 class="section-heading text-uppercase">Datos persona</h2>
+    </div>
+    <div class="row align-items-stretch mb-5" style="margin-left:32%">
+        <div class="col-md-6">
+            <div class="form-group">
+
+                <input class="form-control" name="nombre" type="text" placeholder="Nombre" data-sb-validations="required" />
+                <div class="invalid-feedback" data-sb-feedback="nombre:required">Nombre requerido.</div>
+            </div>
+            <div class="form-group">
+
+                <input class="form-control" name="apellido" type="text" placeholder="Apellido" data-sb-validations="required" />
+                <div class="invalid-feedback" data-sb-feedback="apellido:required">Apellido requerido.</div>
+
+            </div>
+            <div class="form-group mb-md-0">
+
+                <input class="form-control" name="email" type="email" placeholder="Email" data-sb-validations="required, email" />
+                <div class="invalid-feedback" data-sb-feedback="email:required">Email requerido.</div>
+                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <h1 class="section-heading text-uppercase">Datos mascota</h2>
+    </div>
+
+    <div class="row align-items-stretch mb-5" style="margin-left:32%">
+        <div class="col-md-6">
+            <div class="form-group">
+
+                <input class="form-control" name="nombremascota" type="text" placeholder="Nombre de la mascota" data-sb-validations="required" />
+                <div class="invalid-feedback" data-sb-feedback="nombre:required">Nombre mascota requerido</div>
+            </div>
+            <div class="form-group">
+
+                <input class="form-control" name="especie" type="text" placeholder="Especie de la mascota" data-sb-validations="required" />
+                <div class="invalid-feedback" data-sb-feedback="apellido:required">Especie requerida</div>
+
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <h1 class="section-heading text-uppercase">Donaciones</h2>
+    </div>
+    <div class="row align-items-stretch mb-5" style="margin-left:32%">
+        <div class="col-md-6">
+            <div class="form-group">
+
+                <input class="form-control" name="monto" type="number" placeholder="Monto a donar" data-sb-validations="required" />
+                <div class="invalid-feedback" data-sb-feedback="nombre:required">Monto requerido</div>
+            </div>
+            <div class="form-group">
+
+                <input class="form-control" name="nota_donacion" type="text" placeholder="Nota" data-sb-validations="required" />
+                <div class="invalid-feedback" data-sb-feedback="nombre:required">Nota requerida</div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center"><button class="btn btn-primary btn-xl text-uppercase" id="submitButton" type="submit">Enviar</button></div>
+</form>
+
+{% endblock %}
