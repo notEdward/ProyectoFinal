@@ -1,7 +1,11 @@
 import datetime
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+
+from AppDesafio.forms import UserRegistrationForm
 from .models import *
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import login, logout, authenticate
 
 # Create your views here.
 
@@ -36,3 +40,42 @@ def resultados(request):
     else:
 
         return render (request, 'AppDesafio/resultados.html', {'especie': '' })
+
+
+
+#---- Login ------
+
+def login_request(request):
+    if request.method == "POST":
+        formulario = AuthenticationForm(request=request, data = request.POST)
+        if formulario.is_valid():
+            usuario = formulario.cleaned_data.get('username')
+            clave = formulario.cleaned_data.get('password')
+
+            user = authenticate(username=usuario, password=clave)
+            if user is not None:
+                login(request, user)
+                return render (request, 'AppDesafio/inicio.html', {'usuario': usuario, 'mensaje': 'Bienvenido al sistema' })
+            else:
+                return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Incorrecto papu' })
+        else:
+            return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Formulario invalido, intente nuevamente.' })
+    
+    else:
+        formulario = AuthenticationForm()
+        return render (request, 'AppDesafio/login.html', {'formulario': formulario })
+
+def register(request):
+     if request.method == "POST":
+         formulario = UserRegistrationForm(request.POST)
+         if formulario.is_valid():
+             username=formulario.cleaned_data['username']
+             formulario.save()
+             return render (request, 'AppDesafio/inicio.html', {'mensaje':f'USUARIO: {username} creado exitosamente.' })
+         else:
+            return render (request, 'AppDesafio/inicio.html', {'mensaje': 'NO SE PUDO CREAR EL USUARIO.' })
+
+     else:
+         formulario = UserRegistrationForm()
+         return render (request, 'AppDesafio/register.html', {'formulario': formulario })
+
