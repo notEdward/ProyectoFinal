@@ -1,18 +1,24 @@
 {% extends "AppDesafio/padre.html" %}
 {% load static %}
+{% block avatar%}
+<div><img src="/media/avatar/anonymous-user-icon-2.jpg" width="60px" height="60px" style="border-radius:30px" alt=""></div>
+<div style="color:white; margin-left: 20px">
+    <h2>Anonimo</h2>
+</div>
 
+{% endblock %}
 {% block TituloInicio %}
 <header class="masthead">
     <div class="container">
-        <div class="masthead-subheading">Loguea papu</div>
-        <div class="masthead-heading text-uppercase">Login</div>
+        <div class="masthead-subheading"></div>
+        <div class="masthead-heading text-uppercase" style="margin-right: 1000px">Login</div>
     </div>
 </header>
 {% endblock %}
 
 {% block contenidoQueCambia %}
 
-<form method="POST"> {% csrf_token %}
+<form method="POST" style="color:white"> {% csrf_token %}
     {{formulario.as_p}}
     <input type="submit" value = "INICIAR SESION">
     

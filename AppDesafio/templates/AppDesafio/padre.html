@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Refugio</title>
+        <title>Blog Musical</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
@@ -20,8 +20,12 @@
     <body id="page-top">
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            {% block avatar %}
+
+            {% endblock %}
             <div class="container">
-            
+{% comment %} Poner luego lo de si el user esta logeado {% endcomment %}
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars ms-1"></i>
@@ -29,12 +33,14 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
                         <li class="nav-item"><a class="btn btn-primary" href="/">INICIO</a></li>
-                        <li class="nav-item"><a class="btn btn-primary" href="{% url 'formulario' %}">FORMULARIO</a></li>
-                        <li class="nav-item"><a class="btn btn-primary" href="{% url 'buscar' %}">BUSCAR MASCOTA</a></li>
-
+                        {% comment %} <li class="nav-item"><a class="btn btn-primary" href="{% url 'formulario' %}">FORMULARIO</a></li>
+                        <li class="nav-item"><a class="btn btn-primary" href="{% url 'buscar' %}">BUSCAR MASCOTA</a></li> {% endcomment %}
+                        
                         {% if not request.user.is_authenticated %}
+                        <li class="nav-item"><a class="btn btn-primary" href="{% url 'register' %}">REGISTRO</a></li>
                         <li class="nav-item"><a class="btn btn-primary" href="{% url 'login' %}">LOGIN</a></li>
                         {% else %}
+                        <li class="nav-item"><a class="btn btn-primary" href="{% url 'editarPerfil' %}">PERFIL</a></li>
                         <li class="nav-item"><a class="btn btn-primary" href="{% url 'logout' %}">LOGOUT</a></li>
                         {% endif %}
                         <li class="nav-item"><a class="btn btn-primary" href="{% url 'agregar-post' %}">POSTEOS</a></li>

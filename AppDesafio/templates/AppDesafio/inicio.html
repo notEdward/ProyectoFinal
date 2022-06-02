@@ -1,11 +1,28 @@
 {% extends "AppDesafio/padre.html" %}
 {% load static %}
 
+{% block avatar%}
+{% if not request.user.is_authenticated %}
+<div><img src="/media/avatar/anonymous-user-icon-2.jpg" width="60px" height="60px" style="border-radius:30px" alt=""></div>
+<div style="color:white; margin-left: 20px">
+    <h2>Anonimo</h2>
+</div>
+{% else %}
+<div><img src="{{url}}" width="60px" height="60px" style="border-radius:30px" alt=""></div>
+<div style="color:white; margin-left: 20px">
+<h2>{{user}}</h2>
+</div>
+{% endif %}
+
+{% endblock %}
+
 {% block TituloInicio %}
+
 <header class="masthead">
+
     <div class="container">
         <div class="masthead-subheading">{{mensaje}}</div>
-        <div class="masthead-heading text-uppercase">Hola {{usuario}}!</div>
+        <div class="masthead-heading text-uppercase"style="margin-right: 1000px">BLOG</div>
     </div>
 </header>
 {% endblock %}
@@ -27,11 +44,16 @@
                     
                     <div>
                     <td>
-                        <a href="#" class="btn btn-success badge">EDIT</a>
+                        <a href="{% url 'editar-post' p.id %}" class="btn btn-success badge">EDIT</a>
                         <a href="#" class="btn btn-danger badge">Delete</a>
                     </td>
                 </div>
 <div>              
+    <hr>
+    <br>
+    <br>    
             {% endfor %}
-
+<hr>
+<br>
+<br>
 {% endblock %}

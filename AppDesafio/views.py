@@ -2,58 +2,64 @@ import datetime
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 
-from AppDesafio.forms import UserRegistrationForm
+from AppDesafio.forms import UserRegistrationForm, UserEditForm
 from .models import *
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+import os
 
 # Create your views here.
 
 def inicio(request):
 
     posteos = Item.objects.all()
-    context = {'posteos':posteos}
+    if request.user.is_authenticated:      
+        avatar = Avatar.objects.filter(user=request.user)
+        return render(request, 'AppDesafio/inicio.html', {'posteos': posteos, 'url':avatar[0].avatar.url })
 
-    return render(request, 'AppDesafio/inicio.html', context)
+    
+    return render(request, 'AppDesafio/inicio.html', {'posteos': posteos})    
 
 
     
 
-def formulario(request):    
+# def formulario(request):    
 
-    if request.method == 'POST':
-        persona = Persona(nombre = request.POST['nombre'], apellido = request.POST['apellido'], email = request.POST['email'])
-        persona.save()
-        animal = Animal(especie = request.POST['especie'], nombre = request.POST['nombremascota'], fecha_ingreso = datetime.datetime.now())
-        animal.save()
-        donacion = Donacion(monto = request.POST['monto'], nota_donacion = request.POST['nota_donacion']) 
-        donacion.save()
+#     if request.method == 'POST':
+#         persona = Persona(nombre = request.POST['nombre'], apellido = request.POST['apellido'], email = request.POST['email'])
+#         persona.save()
+#         animal = Animal(especie = request.POST['especie'], nombre = request.POST['nombremascota'], fecha_ingreso = datetime.datetime.now())
+#         animal.save()
+#         donacion = Donacion(monto = request.POST['monto'], nota_donacion = request.POST['nota_donacion']) 
+#         donacion.save()
 
-        return render(request, "AppDesafio/inicio.html")
+#         return render(request, "AppDesafio/inicio.html")
 
-    return render(request, "AppDesafio/formulario.html")
+#     return render(request, "AppDesafio/formulario.html")
 
-@login_required
-def buscar(request):
-    return render(request, "AppDesafio/buscar.html")      
+# @login_required
+# def buscar(request):
+#     return render(request, "AppDesafio/buscar.html")      
 
-def resultados(request):
+# def resultados(request):
 
-    if request.GET['especie']:
-        especie = request.GET['especie']
-        animal = Animal.objects.filter(especie = especie)
+#     if request.GET['especie']:
+#         especie = request.GET['especie']
+#         animal = Animal.objects.filter(especie = especie)
 
-        return render (request, 'AppDesafio/resultados.html', {'animal': animal, 'especie': especie })
+#         return render (request, 'AppDesafio/resultados.html', {'animal': animal, 'especie': especie })
 
-    else:
+#     else:
 
-        return render (request, 'AppDesafio/resultados.html', {'especie': '' })
+#         return render (request, 'AppDesafio/resultados.html', {'especie': '' })
 
 #---- Img ----
-
+@login_required
 def agregarPost(request):
+    if request.user.is_authenticated:      
+        avatar = Avatar.objects.filter(user=request.user)
     if request.method == "POST":
         posteo = Item()
         posteo.usuarioCreador = request.user
@@ -67,7 +73,25 @@ def agregarPost(request):
         posteo.save()
         return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Posteo creado exitosamente.' })
 
-    return render(request, 'Appdesafio/newPost.html')        
+    return render(request, 'AppDesafio/newPost.html', {'url':avatar[0].avatar.url})        
+
+def editarPost(request, pk):
+    if request.user.is_authenticated:      
+        avatar = Avatar.objects.filter(user=request.user)
+    posteo = Item.objects.get(id=pk)
+
+    if request.method == "POST":
+        if len(request.FILES) != 0:
+            if len(posteo.imagen) > 0:
+                os.remove(posteo.imagen.path)
+            posteo.imagen = request.FILES['imagen']
+        posteo.titulo = request.POST.get('titulo')
+        posteo.descripcion = request.POST.get('descripcion')
+        posteo.save()
+        return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Posteo editado exitosamente.', 'url':avatar[0].avatar.url })
+
+    return render(request, 'AppDesafio/editPost.html', {'posteo': posteo, 'url':avatar[0].avatar.url})
+    
 
 
 
@@ -85,7 +109,7 @@ def login_request(request):
                 login(request, user)
                 return render (request, 'AppDesafio/inicio.html', {'usuario': usuario, 'mensaje': 'Bienvenido al sistema' })
             else:
-                return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Incorrecto papu' })
+                return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Datos erróneos.' })
         else:
             return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Formulario invalido, intente nuevamente.' })
     
@@ -107,3 +131,25 @@ def register(request):
          formulario = UserRegistrationForm()
          return render (request, 'AppDesafio/register.html', {'formulario': formulario })
 
+#----- Perfil -----------
+@login_required
+def editarPerfil(request):
+    usuario = request.user
+    if request.user.is_authenticated:      
+        avatar = Avatar.objects.filter(user=request.user)
+        
+    if request.method=="POST":
+        formulario = UserEditForm(request.POST, instance=usuario)
+        if formulario.is_valid():
+            informacion= formulario.cleaned_data
+            usuario.email=informacion['email']
+            usuario.password1=informacion['password1']
+            usuario.password2=informacion['password2']
+            usuario.save()
+
+            return render(request, 'AppDesafio/inicio.html', {'usuario': usuario, 'mensaje': 'Perfil editado exitosamente.'})
+    else:
+        formulario = UserEditForm(instance=usuario)
+    return render(request, 'AppDesafio/editarPerfil.html',{'formulario':formulario, 'usuario':usuario.username, 'url':avatar[0].avatar.url})   
+
+            

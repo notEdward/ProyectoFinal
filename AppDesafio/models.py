@@ -1,6 +1,7 @@
 from django.db import models
 import datetime
 import os
+from django.contrib.auth.models import User
 # Create your models here.
 
 class Animal(models.Model):
@@ -22,7 +23,7 @@ def filepath(request, filename):
     old_filename = filename
     timeNow = datetime.datetime.now().strftime('%d%m%Y%H:%M:%S')
     filename = "%s%s" % (timeNow, old_filename)
-    return os.path.join('uploads/', filename)
+    return os.path.join('posteos/', filename)
 
 class Item(models.Model):
     usuarioCreador = models.TextField(max_length=50)
@@ -30,3 +31,9 @@ class Item(models.Model):
     titulo = models.TextField(max_length=50)
     descripcion = models.TextField(max_length=500)
     imagen = models.ImageField(upload_to=filepath, null=True, blank=True)
+
+
+#----Perfil-------
+class Avatar(models.Model):
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    avatar=models.ImageField(upload_to='avatar', blank=True, null=True)

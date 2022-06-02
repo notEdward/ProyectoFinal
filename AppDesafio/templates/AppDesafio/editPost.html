@@ -10,7 +10,7 @@
 <header class="masthead">
     <div class="container">
         <div class="masthead-subheading">{{mensaje}}</div>
-        <div class="masthead-heading text-uppercase"style="margin-right: 1000px">POST</div>
+        <div class="masthead-heading text-uppercase"style="margin-right: 1000px">Editar POST</div>
     </div>
 </header>
 {% endblock %}
@@ -22,15 +22,23 @@
         {% csrf_token %}
         <div class="mb-3">
             <label for="" class="form-label">Titulo</label>
-            <input type="text" Required name="titulo" class="form-control">
+            <input type="text" Required name="titulo" value="{{posteo.titulo}}"" class="form-control">
         </div>
         <div class="mb-3">
             <label for="" class="form-label">Descripcion</label>
-            <input type="text" Required name="descripcion" class="form-control">
+            <input type="text" Required name="descripcion" value="{{posteo.descripcion}}"" class="form-control">
+        </div>
+        <div>
+            <label for="" class="form-label">Imagen</label>    
         </div>
          <div class="mb-3">
-            <label for="" class="form-label">Imagen</label>
-            <input type="file" Required name="imagen" class="form-control">
+            
+            {% if posteo.imagen %}
+                <img src="{{posteo.imagen.url}}" alt="" style="max-width:300px">
+            {% endif %}
+
+                 
+            <input type="file" name="imagen" class="form-control">
         </div>
         <button type="submit" class="btn btn-primary">Guardar</button>
     </form>

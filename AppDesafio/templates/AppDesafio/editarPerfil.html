@@ -1,0 +1,31 @@
+{% extends "AppDesafio/padre.html" %}
+{% load static %}
+{% block avatar%}
+<div><img src="{{url}}" width="60px" height="60px" style="border-radius:30px" alt=""></div>
+<div style="color:white; margin-left: 20px">
+<h2>{{user}}</h2>
+</div>
+{% endblock %}
+{% block TituloInicio %}
+<header class="masthead">
+    <div class="container">
+        <div class="masthead-subheading"></div>
+        <div class="masthead-heading text-uppercase"style="margin-right: 1000px">MI PERFIL</div>
+    </div>
+</header>
+{% endblock %}
+
+{% block contenidoQueCambia %}
+
+<form action="{ %url 'editarPerfil' % } method="POST" style="color:white">
+{% csrf_token %}
+
+<table>
+    {{ formulario.as_table}}
+</table>
+
+<input type="submit" value="Guardar">
+
+</form>
+
+{% endblock %}
