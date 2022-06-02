@@ -16,6 +16,7 @@ path('logout', LogoutView.as_view(template_name="AppDesafio/logout.html"), name=
 
 #----PERFIL-----
 path('editarPerfil', editarPerfil, name='editarPerfil'),
+path('agregarAvatar', agregarAvatar, name='agregarAvatar'),
 
 #-----POSTEOS-----
 path('agregar-post', agregarPost, name='agregar-post'),

@@ -34,10 +34,10 @@
                    <div> <h1>{{ p.titulo }}</h1></div>
                    <br>                    
                     {% if p.imagen %}
-                       
+                    <p style="display:flex">
                             <img src="{{ p.imagen.url }}" alt="" style="max-width:300px">
-                            <label style="margin-left: 30px">{{ p.descripcion }}</label>
-                        
+                          <span style="align-self:center; margin-left:60px"> {{ p.descripcion }}</span> 
+                    </p>
                     {% else %}
                                           
                     {% endif %}

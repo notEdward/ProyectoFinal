@@ -2,23 +2,24 @@ import datetime
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 
-from AppDesafio.forms import UserRegistrationForm, UserEditForm
+from AppDesafio.forms import UserRegistrationForm, UserEditForm, AvatarForm
 from .models import *
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 import os
 
 # Create your views here.
 
 def inicio(request):
 
-    posteos = Item.objects.all()
+    posteos = Item.objects.all().order_by('id').reverse()
     if request.user.is_authenticated:      
         avatar = Avatar.objects.filter(user=request.user)
-        return render(request, 'AppDesafio/inicio.html', {'posteos': posteos, 'url':avatar[0].avatar.url })
-
+        if avatar:
+            return render(request, 'AppDesafio/inicio.html', {'posteos': posteos, 'url':avatar[0].avatar.url })
     
     return render(request, 'AppDesafio/inicio.html', {'posteos': posteos})    
 
@@ -152,4 +153,16 @@ def editarPerfil(request):
         formulario = UserEditForm(instance=usuario)
     return render(request, 'AppDesafio/editarPerfil.html',{'formulario':formulario, 'usuario':usuario.username, 'url':avatar[0].avatar.url})   
 
-            
+ #------ Avatar ----------
+def agregarAvatar(request):
+    
+    user=User.objects.get(username=request.user)
+    if request.method == "POST":
+         formulario = AvatarForm(request.POST, request.FILES)
+         if formulario.is_valid():
+             avatar = Avatar(user=user,avatar= formulario.cleaned_data['avatar'])
+             avatar.save()
+             return render(request, 'AppDesafio/inicio.html', {'usuario': user , 'mensaje': 'Avatar cambiado exitosamente'})
+    else:
+        formulario=AvatarForm()
+    return render(request, 'AppDesafio/agregarAvatar.html', {'formulario': formulario, 'usuario': user})     
