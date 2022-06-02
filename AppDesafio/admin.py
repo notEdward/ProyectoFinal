@@ -6,3 +6,4 @@ from .models import *
 admin.site.register(Animal)
 admin.site.register(Persona)
 admin.site.register(Donacion)
+admin.site.register(Item)

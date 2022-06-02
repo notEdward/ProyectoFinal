@@ -1,16 +1,25 @@
 import datetime
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from AppDesafio.forms import UserRegistrationForm
 from .models import *
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 def inicio(request):
-    return render(request, "AppDesafio/inicio.html")
+
+    posteos = Item.objects.all()
+    context = {'posteos':posteos}
+
+    return render(request, 'AppDesafio/inicio.html', context)
+
+
+    
 
 def formulario(request):    
 
@@ -26,6 +35,7 @@ def formulario(request):
 
     return render(request, "AppDesafio/formulario.html")
 
+@login_required
 def buscar(request):
     return render(request, "AppDesafio/buscar.html")      
 
@@ -40,6 +50,24 @@ def resultados(request):
     else:
 
         return render (request, 'AppDesafio/resultados.html', {'especie': '' })
+
+#---- Img ----
+
+def agregarPost(request):
+    if request.method == "POST":
+        posteo = Item()
+        posteo.usuarioCreador = request.user
+        posteo.fecha = datetime.datetime.now()
+        posteo.titulo = request.POST.get('titulo')
+        posteo.descripcion = request.POST.get('descripcion')
+
+        if len(request.FILES) != 0:
+            posteo.imagen = request.FILES['imagen']
+
+        posteo.save()
+        return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Posteo creado exitosamente.' })
+
+    return render(request, 'Appdesafio/newPost.html')        
 
 
 

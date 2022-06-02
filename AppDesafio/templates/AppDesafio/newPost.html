@@ -1,0 +1,35 @@
+{% extends "AppDesafio/padre.html" %}
+{% load static %}
+
+{% block TituloInicio %}
+<header class="masthead">
+    <div class="container">
+        <div class="masthead-subheading">{{mensaje}}</div>
+        <div class="masthead-heading text-uppercase">Hola {{usuario}}!</div>
+    </div>
+</header>
+{% endblock %}
+
+{% block contenidoQueCambia %}
+
+<div class="card-body">
+    <form action="" method="POST" enctype="multipart/form-data" style="color:white">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="" class="form-label">Titulo</label>
+            <input type="text" Required name="titulo" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Descripcion</label>
+            <input type="text" Required name="descripcion" class="form-control">
+        </div>
+         <div class="mb-3">
+            <label for="" class="form-label">Imagen</label>
+            <input type="file" Required name="imagen" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+</div>
+
+
+{% endblock %}

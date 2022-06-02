@@ -5,13 +5,33 @@
 <header class="masthead">
     <div class="container">
         <div class="masthead-subheading">{{mensaje}}</div>
-        <div class="masthead-heading text-uppercase">Acceda al formulario!</div>
+        <div class="masthead-heading text-uppercase">Hola {{usuario}}!</div>
     </div>
 </header>
 {% endblock %}
 
 {% block contenidoQueCambia %}
+<div style="color:white">
+            {% for p in posteos %}
 
-<h1>Hola {{usuario}}! <h1>
+                   <div> <h1>{{ p.titulo }}</h1></div>
+                   <br>                    
+                    {% if p.imagen %}
+                       
+                            <img src="{{ p.imagen.url }}" alt="" style="max-width:300px">
+                            <label style="margin-left: 30px">{{ p.descripcion }}</label>
+                        
+                    {% else %}
+                                          
+                    {% endif %}
+                    
+                    <div>
+                    <td>
+                        <a href="#" class="btn btn-success badge">EDIT</a>
+                        <a href="#" class="btn btn-danger badge">Delete</a>
+                    </td>
+                </div>
+<div>              
+            {% endfor %}
 
 {% endblock %}
