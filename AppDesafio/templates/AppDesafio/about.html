@@ -1,0 +1,32 @@
+{% extends "AppDesafio/padre.html" %}
+{% load static %}
+
+{% block avatar%}
+{% if not request.user.is_authenticated %}
+<div><img src="/media/avatar/anonymous-user-icon-2.jpg" width="60px" height="60px" style="border-radius:30px" alt=""></div>
+<div style="color:white; margin-left: 20px">
+    <h2>Anonimo</h2>
+</div>
+{% else %}
+<div><img src="{{url}}" width="60px" height="60px" style="border-radius:30px" alt=""></div>
+<div style="color:white; margin-left: 20px">
+<h2>{{user}}</h2>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block TituloInicio %}
+<header class="masthead">
+    <div class="container">
+        <div class="masthead-subheading"></div>
+        <div class="masthead-heading text-uppercase" style="margin-right: 1000px">Sobre mi</div>
+    </div>
+</header>
+{% endblock %}
+
+{% block contenidoQueCambia %}
+
+<div style="color:white">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</div>
+{% endblock %}

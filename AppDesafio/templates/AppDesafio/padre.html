@@ -41,11 +41,11 @@
                         <li class="nav-item"><a class="btn btn-primary" href="{% url 'login' %}">LOGIN</a></li>
                         {% else %}
                         <li class="nav-item"><a class="btn btn-primary" href="{% url 'editarPerfil' %}">PERFIL</a></li>
+                        <li class="nav-item"><a class="btn btn-primary" href="{% url 'verPost' %}">MIS POST</a></li>
                         <li class="nav-item"><a class="btn btn-primary" href="{% url 'logout' %}">LOGOUT</a></li>
-                        <li class="nav-item"><a class="btn btn-primary" href="{% url 'mis-post' %}">MIS POST</a></li>
-                        {% endif %}
                         
-                        <li class="nav-item"><a class="btn btn-primary" href="{% url 'agregar-post' %}">POSTEOS</a></li>
+                        {% endif %}
+                    
                     </ul>
                 </div>
             </div>
@@ -86,8 +86,9 @@
                         <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                     <div class="col-lg-4 text-lg-end">
-                        <a class="link-dark text-decoration-none me-3" href="#!">Privacy Policy</a>
+                       
                         <a class="link-dark text-decoration-none" href="#!">Terms of Use</a>
+                        <a class="link-dark text-decoration-none me-3" href="{% url 'about' %}">About</a>
                     </div>
                 </div>
             </div>

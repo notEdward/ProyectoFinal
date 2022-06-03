@@ -25,7 +25,7 @@ def filepath(request, filename):
     filename = "%s%s" % (timeNow, old_filename)
     return os.path.join('posteos/', filename)
 
-class Item(models.Model):
+class Posteo(models.Model):
     usuarioCreador = models.TextField(max_length=50)
     fecha =  models.DateField()
     titulo = models.TextField(max_length=50)
@@ -35,8 +35,9 @@ class Item(models.Model):
 #---- Comentarios ----
 class Comentario(models.Model):
     usuario = models.TextField(max_length=50)
+    user_id = models.IntegerField()
     comentario = models.TextField(max_length= 500)
-    fecha = models.DateField()
+    fecha = models.DateTimeField()
     posteoId = models.IntegerField()
 
 #----Perfil-------

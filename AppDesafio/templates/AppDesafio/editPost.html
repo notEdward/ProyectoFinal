@@ -17,6 +17,7 @@
 
 {% block contenidoQueCambia %}
 
+{% if request.user.username == posteo.usuarioCreador or request.user.is_superuser%}
 <div class="card-body">
     <form action="" method="POST" enctype="multipart/form-data" style="color:white">
         {% csrf_token %}
@@ -43,6 +44,9 @@
         <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
 </div>
-
-
+{% else %}
+<div style="color:white">
+<h1>NO PERMITIDO.</h1>
+</div>
+{% endif %}
 {% endblock %}

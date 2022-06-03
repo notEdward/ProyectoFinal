@@ -19,11 +19,14 @@ path('editarPerfil', editarPerfil, name='editarPerfil'),
 path('agregarAvatar', agregarAvatar, name='agregarAvatar'),
 
 #-----POSTEOS-----
-path('agregar-post', agregarPost, name='agregar-post'),
-path('editar-post/<str:pk>', editarPost, name='editar-post'),
-path('comentar-post/<str:pk>', comentarPost, name='comentar-post'),
-path('mis-post', verPost, name='mis-post'),
+path('agregarPost', agregarPost, name='agregarPost'),
+path('editarPost/<str:pk>', editarPost, name='editarPost'),
+path('borrarPost/<str:pk>', borrarPost, name='borrarPost'),
+path('comentarPost/<str:pk>', comentarPost, name='comentarPost'),
+path('verPost', verPost, name='verPost'),
 
+#-----ABOUT------
+path('about', about, name='about'),
 
 ]
 

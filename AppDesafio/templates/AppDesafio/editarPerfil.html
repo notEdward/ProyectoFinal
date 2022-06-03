@@ -16,7 +16,14 @@
 {% endblock %}
 
 {% block contenidoQueCambia %}
-
+<div>
+    <div style="float:right; color:white">
+        <h1>Mi avatar</h1>
+        <div><img src="{{url}}" width="80px" height="80px" style="border-radius:30px" alt=""></div>
+        <br>
+        <li class="nav-item"><a class="btn btn-primary" href="{% url 'agregarAvatar' %}">EDITAR</a></li>
+    </div>
+<div>
 <form action="{% url 'editarPerfil' %}" method="POST" style="color:white">
 {% csrf_token %}
 
@@ -27,5 +34,6 @@
 <input type="submit" value="Guardar">
 
 </form>
-
+</div>
+</div>
 {% endblock %}

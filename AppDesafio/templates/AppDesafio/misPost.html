@@ -17,7 +17,7 @@
 
 {% block contenidoQueCambia %}
 <div style="margin-bottom:60px">
-<li class="nav-item"><a class="btn btn-primary" href="{% url 'agregar-post' %}">NUEVO POST</a></li>
+<li class="nav-item"><a class="btn btn-primary" href="{% url 'agregarPost' %}">NUEVO POST</a></li>
 </div>
 <div style="color:white">
             {% for p in posteos %}
@@ -35,8 +35,8 @@
                     
                     <div>
                     <td>
-                        <a href="{% url 'editar-post' p.id %}" class="btn btn-success badge">EDIT</a>
-                        <a href="#" class="btn btn-danger badge">Delete</a>
+                        <a href="{% url 'editarPost' p.id %}" class="btn btn-success badge">EDIT</a>
+                        <a href="{% url 'borrarPost' p.id %}" class="btn btn-danger badge">BORRAR</a>
                     </td>
                 </div>
 <div>              
