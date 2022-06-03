@@ -21,6 +21,9 @@ path('agregarAvatar', agregarAvatar, name='agregarAvatar'),
 #-----POSTEOS-----
 path('agregar-post', agregarPost, name='agregar-post'),
 path('editar-post/<str:pk>', editarPost, name='editar-post'),
+path('comentar-post/<str:pk>', comentarPost, name='comentar-post'),
+path('mis-post', verPost, name='mis-post'),
+
 
 ]
 

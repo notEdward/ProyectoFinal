@@ -32,6 +32,12 @@ class Item(models.Model):
     descripcion = models.TextField(max_length=500)
     imagen = models.ImageField(upload_to=filepath, null=True, blank=True)
 
+#---- Comentarios ----
+class Comentario(models.Model):
+    usuario = models.TextField(max_length=50)
+    comentario = models.TextField(max_length= 500)
+    fecha = models.DateField()
+    posteoId = models.IntegerField()
 
 #----Perfil-------
 class Avatar(models.Model):

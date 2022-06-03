@@ -56,7 +56,8 @@ def inicio(request):
 
 #         return render (request, 'AppDesafio/resultados.html', {'especie': '' })
 
-#---- Img ----
+#---- Posteos ----
+#---- ADD -----
 @login_required
 def agregarPost(request):
     if request.user.is_authenticated:      
@@ -75,10 +76,11 @@ def agregarPost(request):
         return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Posteo creado exitosamente.' })
 
     return render(request, 'AppDesafio/newPost.html', {'url':avatar[0].avatar.url})        
-
+#---- EDIT -----
+@login_required
 def editarPost(request, pk):
-    if request.user.is_authenticated:      
-        avatar = Avatar.objects.filter(user=request.user)
+
+    avatar = Avatar.objects.filter(user=request.user)
     posteo = Item.objects.get(id=pk)
 
     if request.method == "POST":
@@ -93,7 +95,38 @@ def editarPost(request, pk):
 
     return render(request, 'AppDesafio/editPost.html', {'posteo': posteo, 'url':avatar[0].avatar.url})
     
+#----- VER -----
+@login_required
+def verPost(request):
+    
+    user=User.objects.get(username=request.user)
+    avatar = Avatar.objects.filter(user=request.user)
+    posteos = Item.objects.filter(usuarioCreador=user).order_by('id').reverse()
+    if avatar:
+         return render(request, 'AppDesafio/misPost.html', {'posteos': posteos, 'url':avatar[0].avatar.url})    
 
+    return render(request, 'AppDesafio/misPost.html', {'posteos': posteos})    
+
+#----- COMENTAR ----
+@login_required
+def comentarPost(request, pk):
+
+    avatar = Avatar.objects.filter(user=request.user)
+    posteo = Item.objects.get(id=pk)
+    comentarios = Comentario.objects.filter(posteoId = pk)
+    avatarComentario = Avatar.objects.all()
+
+    usuario = request.user
+    if request.method=="POST":
+        comentario = Comentario(usuario = usuario, comentario = request.POST['texto'], fecha = datetime.datetime.now(), posteoId = pk)
+        comentario.save()
+
+        return render(request, 'AppDesafio/inicio.html', {'mensaje':' Comentario agregado exitosamente.' })
+
+    if avatar:
+         return render(request, 'AppDesafio/comentarPost.html', {'posteo': posteo, 'comentarios': comentarios, 'avatarComentario': avatarComentario, 'url':avatar[0].avatar.url})    
+
+    return render(request, 'AppDesafio/comentarPost.html', {'posteo': posteo, 'comentarios': comentarios, 'avatarComentario': avatarComentario})
 
 
 #---- Login ------

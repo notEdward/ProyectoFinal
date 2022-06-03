@@ -1,0 +1,97 @@
+{% extends "AppDesafio/padre.html" %}
+{% load static %}
+{% block avatar%}
+<div><img src="{{url}}" width="60px" height="60px" style="border-radius:30px" alt=""></div>
+<div style="color:white; margin-left: 20px">
+<h2>{{user}}</h2>
+</div>
+{% endblock %}
+{% block TituloInicio %}
+<header class="masthead">
+    <div class="container">
+        <div class="masthead-subheading">{{mensaje}}</div>
+        <div class="masthead-heading text-uppercase"style="margin-right: 1000px">Comentar POST</div>
+    </div>
+</header>
+{% endblock %}
+
+{% block contenidoQueCambia %}
+
+<div style="color:white">
+
+           <div> <h1>{{ posteo.titulo }}</h1></div>
+           <br>                    
+            {% if posteo.imagen %}
+            <p style="display:flex">
+                    <img src="{{ posteo.imagen.url }}" alt="" style="max-width:300px">
+                  <span style="align-self:center; margin-left:60px"> {{ posteo.descripcion }}</span> 
+            </p>
+            {% else %}
+                                  
+            {% endif %}
+            
+            <div>
+            <td>
+                <form action="" method ="POST" >{% csrf_token %}
+
+                    <p>Comentar:</p>
+                  
+                    <p><textarea name="texto" cols="40" rows="5"></textarea></p>
+                  
+                    <p><input type="submit" value="Enviar"></p>
+                  
+                  </form>
+            </td>
+        </div>
+<div>              
+<hr>
+<br>
+<br>  
+{% for c in comentarios %}
+
+
+        <div><img src="{{url}}" width="60px" height="60px" style="border-radius:30px" alt="">{{c.usuario}}: </div>
+        <br>
+        <div>
+            {{ c.comentario }}
+        </div>
+
+    {% endfor %}
+
+<hr>
+<br>
+<br>
+{% comment %} 
+{% for u in avatarComentario %}
+
+<div><img src="{{u.avatar.url}}" width="60px" height="60px" style="border-radius:30px" alt="">{{u.user}}: </div>
+<br>
+<div>
+    {{ u.user }}
+</div>
+
+{% endfor %} {% endcomment %}
+{% comment %} {% for c in comentarios %}
+{% for u in avatarComentario %}
+    {%if u.user_id == 1%}
+    hola
+    {%endif%}
+
+ {% endfor %}
+{% endfor %}
+
+{% endcomment %}
+{% endblock %} 
+
+{% comment %} {% for c in comentarios %}
+{% for u in avatarComentario %}
+   {% if c.usuario %}
+      {% if u.user in c.usuario %}
+        {% if c.usuario == u.user %}
+          {% elif c.usuario != u.user %}
+              {{ c.usuario }}
+          {% endif %}
+      {% endif %}
+   {% endif %}
+ {% endfor %}
+{% endfor %} {% endcomment %}
