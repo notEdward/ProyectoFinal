@@ -42,6 +42,7 @@
                         {% else %}
                         <li class="nav-item"><a class="btn btn-primary" href="{% url 'editarPerfil' %}">PERFIL</a></li>
                         <li class="nav-item"><a class="btn btn-primary" href="{% url 'verPost' %}">MIS POST</a></li>
+                        <li class="nav-item"><a class="btn btn-primary" href="{% url 'mensajeria' %}">MENSAJERIA</a></li>
                         <li class="nav-item"><a class="btn btn-primary" href="{% url 'logout' %}">LOGOUT</a></li>
                         
                         {% endif %}
@@ -87,7 +88,7 @@
                     </div>
                     <div class="col-lg-4 text-lg-end">
                        
-                        <a class="link-dark text-decoration-none" href="#!">Terms of Use</a>
+                        {% comment %} <a class="link-dark text-decoration-none" href="#!">Terms of Use</a> {% endcomment %}
                         <a class="link-dark text-decoration-none me-3" href="{% url 'about' %}">About</a>
                     </div>
                 </div>

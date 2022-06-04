@@ -76,7 +76,7 @@ def agregarPost(request):
         posteo.save()
         return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Posteo creado exitosamente.', 'url':avatar[0].avatar.url })
 
-    return render(request, 'AppDesafio/newPost.html', {'url':avatar[0].avatar.url})        
+    return render(request, 'AppDesafio/nuevoPost.html', {'url':avatar[0].avatar.url})        
 #---- EDICION -----
 @login_required
 def editarPost(request, pk):
