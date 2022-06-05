@@ -22,12 +22,18 @@
 
     <div class="container">
         <div class="masthead-subheading">{{mensaje}}</div>
+        {% if mensaje == null%}
         <div class="masthead-heading text-uppercase"style="margin-right: 1000px">BLOG</div>
+        {% endif %}
     </div>
 </header>
 {% endblock %}
 
 {% block contenidoQueCambia %}
+
+{% if error %}
+<a href="javascript:history.go(-1);">Volver atrás</a>
+{% endif%}
 <div style="color:white">
             {% for p in posteos %}
 

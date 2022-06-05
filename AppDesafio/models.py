@@ -32,6 +32,9 @@ class Posteo(models.Model):
     descripcion = models.TextField(max_length=500)
     imagen = models.ImageField(upload_to=filepath, null=True, blank=True)
 
+    def __str__(self):
+        return "Posteo de " + self.usuarioCreador + " publicado el " + str(self.fecha)
+
 #---- Comentarios ----
 class Comentario(models.Model):
     usuario = models.TextField(max_length=50)

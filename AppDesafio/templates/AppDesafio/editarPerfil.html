@@ -24,14 +24,15 @@
         <li class="nav-item"><a class="btn btn-primary" href="{% url 'agregarAvatar' %}">EDITAR</a></li>
     </div>
 <div>
+<div class="form-group">
 <form action="{% url 'editarPerfil' %}" method="POST" style="color:white">
 {% csrf_token %}
-
 <table>
-    {{ formulario.as_table}}
+    {{formulario.as_table}}
 </table>
-
-<input type="submit" value="Guardar">
+</div>
+<br>
+<button style="margin-left:85px" class="btn btn-primary btn-xl text-uppercase" id="submitButton" type="submit">Guardar</button>
 
 </form>
 </div>

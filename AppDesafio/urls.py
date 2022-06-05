@@ -28,5 +28,9 @@ path('verPost', verPost, name='verPost'),
 #-----ABOUT------
 path('about', about, name='about'),
 
+#----PAGES------
+path('pages', pages, name='pages'),
+path('pages/<str:pk>', detallePost, name="detallePost"),
+
 ]
 

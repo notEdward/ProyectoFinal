@@ -1,0 +1,65 @@
+{% extends "AppDesafio/padre.html" %}
+{% load static %}
+
+{% block avatar%}
+{% if not request.user.is_authenticated %}
+<div><img src="/media/avatar/anonymous-user-icon-2.jpg" width="60px" height="60px" style="border-radius:30px" alt=""></div>
+<div style="color:white; margin-left: 20px">
+    <h2>Anonimo</h2>
+</div>
+{% else %}
+<div><img src="{{url}}" width="60px" height="60px" style="border-radius:30px" alt=""></div>
+<div style="color:white; margin-left: 20px">
+<h2>{{user}}</h2>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block TituloInicio %}
+<header class="masthead">
+    <div class="container">
+        <div class="masthead-subheading"></div>
+        <div class="masthead-heading text-uppercase" style="margin-right: 1000px">PAGES</div>
+    </div>
+</header>
+{% endblock %}
+
+{% block contenidoQueCambia %}
+
+{%if posteos%}
+<div style="color:white">
+<h2>Posteos:</h2>
+    <div style="font-style:italic; font-size:15px">
+   
+    
+        {% for p in posteos %}
+      <li>
+         {{p}} <a href="{% url 'detallePost' p.id %}">Leer más</a>
+      </li>
+        {% endfor %} 
+
+    </div>
+</div>
+{%elif posteo%}
+<div style="color:white">
+
+    <div> <h1>{{ posteo.titulo }}</h1></div>
+    <br>                    
+     {% if posteo.imagen %}
+     <p style="display:flex">
+             <img src="{{ posteo.imagen.url }}" alt="" style="max-width:300px">
+           <span style="align-self:center; margin-left:60px"> {{ posteo.descripcion }}</span> 
+     </p>
+     {% else %}
+                           
+     {% endif %}
+     <a href="{% url 'editarPost' posteo.id %}" class="btn btn-success badge">EDITAR</a>
+     <a href="{% url 'borrarPost' posteo.id %}" class="btn btn-danger badge">BORRAR</a> 
+<div>
+    
+{% endif %}
+<br>
+<br>
+<a href="javascript:history.go(-1);">Volver atrás</a>
+{% endblock %}

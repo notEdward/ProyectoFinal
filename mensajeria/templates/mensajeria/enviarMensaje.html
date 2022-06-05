@@ -1,0 +1,50 @@
+{% extends "AppDesafio/padre.html" %}
+{% load static %}
+
+{% block avatar%}
+{% if not request.user.is_authenticated %}
+<div><img src="/media/avatar/anonymous-user-icon-2.jpg" width="60px" height="60px" style="border-radius:30px" alt=""></div>
+<div style="color:white; margin-left: 20px">
+    <h2>Anonimo</h2>
+</div>
+{% else %}
+<div><img src="{{url}}" width="60px" height="60px" style="border-radius:30px" alt=""></div>
+<div style="color:white; margin-left: 20px">
+<h2>{{user}}</h2>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block TituloInicio %}
+<header class="masthead">
+    <div class="container">
+        <div class="masthead-subheading"></div>
+        <div class="masthead-heading text-uppercase" style="margin-right: 1000px">Mensajeria</div>
+    </div>
+</header>
+{% endblock %}
+
+{% block contenidoQueCambia %}
+
+<form action="" method ="POST" id="contactForm">
+    {% csrf_token %}  
+    <div class="text-center">
+        <h1 class="section-heading text-uppercase">Enviar mensaje</h2>
+    </div>
+    <div class="row align-items-stretch mb-5" style="margin-left:32%">
+        <div class="col-md-6">
+            <div class="form-group">
+
+                <input class="form-control" name="destinatario" type="text" placeholder="Destinatario" data-sb-validations="required" />
+                <div class="invalid-feedback" data-sb-feedback="destinatario:required">Destinatario</div>
+            </div>
+            <div class="form-group">
+                <p><textarea name="mensaje" cols="40" rows="5"></textarea></p>              
+            </div>
+        </div>
+    </div>
+    <div class="text-center"><button class="btn btn-primary btn-xl text-uppercase" id="enviarMensaje" type="submit">Enviar</button></div>
+</form>
+
+{% endblock %}

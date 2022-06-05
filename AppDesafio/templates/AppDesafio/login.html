@@ -17,11 +17,14 @@
 {% endblock %}
 
 {% block contenidoQueCambia %}
-
+<div class="form-group">
 <form method="POST" style="color:white"> {% csrf_token %}
-    {{formulario.as_p}}
-    <input type="submit" value = "INICIAR SESION">
+    <table>
+    {{formulario.as_table}}
+    </table>
+
+    <button style="height:55px; width:200px; font-size:14px; margin-left:150px; margin-top:20px" class="btn btn-primary btn-xl text-uppercase" id="submitButton" type="submit">INICIAR SESION</button>
     
 </form>
-
+</div>
 {% endblock %}

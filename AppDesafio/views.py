@@ -233,4 +233,31 @@ def agregarAvatar(request):
 
 
 def about(request):
-        return render(request, 'AppDesafio/about.html')
+        if request.user.is_authenticated:      
+           avatar = Avatar.objects.filter(user=request.user)
+        return render(request, 'AppDesafio/about.html', {'url':avatar[0].avatar.url} )
+
+@login_required
+def pages(request):
+    avatar = Avatar.objects.filter(user=request.user)
+    user = request.user
+    #chequeo si el usuario se encuentra en el grupo de usuarios comunes.
+    if user.groups.filter(name='Usuarios_Comunes').exists():
+        return render (request, 'AppDesafio/inicio.html', {'mensaje': 'NO PERMITIDO.', 'url':avatar[0].avatar.url })
+    posteos = Posteo.objects.all()
+    return render(request, 'AppDesafio/pages.html', {'posteos':posteos, 'url':avatar[0].avatar.url} )
+
+@login_required
+def detallePost(request, pk):
+    avatar = Avatar.objects.filter(user=request.user)
+    user = request.user
+    #chequeo si el usuario se encuentra en el grupo de usuarios comunes.
+    if user.groups.filter(name='Usuarios_Comunes').exists():
+        return render (request, 'AppDesafio/inicio.html', {'mensaje': 'NO PERMITIDO.', 'url':avatar[0].avatar.url })
+    #validamos que tenga un objeto, sino error.
+    try:
+        posteo = Posteo.objects.get(id=pk)
+    except:
+        return render(request, 'AppDesafio/inicio.html', {'mensaje': 'Posteo inexistente.', 'error':'error', 'url':avatar[0].avatar.url} )   
+
+    return render(request, 'AppDesafio/pages.html', {'posteo':posteo, 'url':avatar[0].avatar.url} )   

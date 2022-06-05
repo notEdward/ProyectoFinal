@@ -20,18 +20,19 @@
 <header class="masthead">
     <div class="container">
         <div class="masthead-subheading"></div>
-        <div class="masthead-heading text-uppercase" style="margin-right: 1000px">Sobre mi</div>
+        <div class="masthead-heading text-uppercase" style="margin-right: 1000px">ANUNCIOS!</div>
     </div>
 </header>
 {% endblock %}
 
 {% block contenidoQueCambia %}
 
-<div style="color:white">Mi nombre es Eduardo Romero, tengo 31 años, o 32 si ven este mensaje después del 10 de junio, me gusta el combate medieval y juegos online (ahora investigando el mundo NFT que me llama la atención).
-     Me encuentro finalizando el curso de python en coderhouse y haciendo la entrega del proyecto final. Ante cualquier duda me pueden contactar por el correo symfonia.ray@gmail.com.
-     <br>
-     Saludos!!!   
+{% for anuncio in object_list %}
+<div style="color:white">
+<li>{{anuncio.mensaje}}</li>
 </div>
-<br>
-<img style="width:70%"src="media\about\templars.jpg" alt="">
+{% endfor %}
+
+<a href="javascript:history.go(-1);">Volver atrás</a>
+<input type=button value="Previous Page" onClick="javascript:history.go(-1);">
 {% endblock %}
