@@ -26,7 +26,7 @@
 {% endblock %}
 
 {% block contenidoQueCambia %}
-
+{{context}}
 {% for anuncio in object_list %}
 <div style="color:white">
 <li>{{anuncio.mensaje}}</li>
@@ -34,5 +34,5 @@
 {% endfor %}
 
 <a href="javascript:history.go(-1);">Volver atrás</a>
-<input type=button value="Previous Page" onClick="javascript:history.go(-1);">
+
 {% endblock %}

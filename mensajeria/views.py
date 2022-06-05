@@ -50,5 +50,8 @@ def verEnviados(request):
     return render(request, 'mensajeria/verEnviados.html',  {'mensajes': mensajes, 'url':avatar[0].avatar.url })
 
 class AnunciosList(ListView):
+    
     model = Anuncio
     template_name = 'mensajeria/anuncios.html'
+
+

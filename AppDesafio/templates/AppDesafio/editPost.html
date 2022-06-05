@@ -23,11 +23,25 @@
         {% csrf_token %}
         <div class="mb-3">
             <label for="" class="form-label">Titulo</label>
-            <input type="text" Required name="titulo" value="{{posteo.titulo}}"" class="form-control">
+            <input type="text" Required name="titulo" value="{{posteo.titulo}}" class="form-control">
         </div>
         <div class="mb-3">
+            <label for="" class="form-label">Género</label>
+            <select name="genero" class="form-control">
+                <option value="{{posteo.subtitulo}}" selected>{{posteo.subtitulo}}</option>
+                <option value="Clásica">Clásica</option>
+                <option value="Country">Country</option>
+                <option value="Jazz">Jazz</option>
+                <option value="Metal">Metal</option>
+                <option value="Pop">Pop</option>
+                <option value="Tecno">Tecno</option>
+                <option value="Rock">Rock</option>
+                <option value="Otros">Otros</option>
+              </select>
+        </div> 
+        <div class="mb-3">
             <label for="" class="form-label">Descripcion</label>
-            <input type="text" Required name="descripcion" value="{{posteo.descripcion}}"" class="form-control">
+            <input type="text" Required name="descripcion" value="{{posteo.descripcion}}" class="form-control">
         </div>
         <div>
             <label for="" class="form-label">Imagen</label>    

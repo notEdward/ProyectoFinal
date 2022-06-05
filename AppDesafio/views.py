@@ -24,39 +24,6 @@ def inicio(request):
     
     return render(request, 'AppDesafio/inicio.html', {'posteos': posteos})    
 
-
-    
-
-# def formulario(request):    
-
-#     if request.method == 'POST':
-#         persona = Persona(nombre = request.POST['nombre'], apellido = request.POST['apellido'], email = request.POST['email'])
-#         persona.save()
-#         animal = Animal(especie = request.POST['especie'], nombre = request.POST['nombremascota'], fecha_ingreso = datetime.datetime.now())
-#         animal.save()
-#         donacion = Donacion(monto = request.POST['monto'], nota_donacion = request.POST['nota_donacion']) 
-#         donacion.save()
-
-#         return render(request, "AppDesafio/inicio.html")
-
-#     return render(request, "AppDesafio/formulario.html")
-
-# @login_required
-# def buscar(request):
-#     return render(request, "AppDesafio/buscar.html")      
-
-# def resultados(request):
-
-#     if request.GET['especie']:
-#         especie = request.GET['especie']
-#         animal = Animal.objects.filter(especie = especie)
-
-#         return render (request, 'AppDesafio/resultados.html', {'animal': animal, 'especie': especie })
-
-#     else:
-
-#         return render (request, 'AppDesafio/resultados.html', {'especie': '' })
-
 #---- Posteos ----
 #---- AGREGAR -----
 @login_required
@@ -68,12 +35,16 @@ def agregarPost(request):
         posteo.usuarioCreador = request.user
         posteo.fecha = datetime.datetime.now()
         posteo.titulo = request.POST.get('titulo')
+        posteo.subtitulo = request.POST.get('genero')
         posteo.descripcion = request.POST.get('descripcion')
 
         if len(request.FILES) != 0:
             posteo.imagen = request.FILES['imagen']
-
-        posteo.save()
+        try:
+         posteo.save()
+        except:
+         return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Error en los datos.','error':'error', 'url':avatar[0].avatar.url })
+         
         return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Posteo creado exitosamente.', 'url':avatar[0].avatar.url })
 
     return render(request, 'AppDesafio/nuevoPost.html', {'url':avatar[0].avatar.url})        
@@ -90,8 +61,13 @@ def editarPost(request, pk):
                 os.remove(posteo.imagen.path)
             posteo.imagen = request.FILES['imagen']
         posteo.titulo = request.POST.get('titulo')
+        posteo.subtitulo = request.POST.get('genero')
         posteo.descripcion = request.POST.get('descripcion')
-        posteo.save()
+        try:
+         posteo.save()
+        except:
+         return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Error en los datos.','error':'error', 'url':avatar[0].avatar.url })
+
         return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Posteo editado exitosamente.', 'url':avatar[0].avatar.url })
 
     return render(request, 'AppDesafio/editPost.html', {'posteo': posteo, 'url':avatar[0].avatar.url})
@@ -258,6 +234,6 @@ def detallePost(request, pk):
     try:
         posteo = Posteo.objects.get(id=pk)
     except:
-        return render(request, 'AppDesafio/inicio.html', {'mensaje': 'Posteo inexistente.', 'error':'error', 'url':avatar[0].avatar.url} )   
+        return render(request, 'AppDesafio/inicio.html', {'mensaje': 'No hay páginas aún', 'error':'error', 'url':avatar[0].avatar.url} )   
 
     return render(request, 'AppDesafio/pages.html', {'posteo':posteo, 'url':avatar[0].avatar.url} )   
