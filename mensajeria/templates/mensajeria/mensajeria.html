@@ -29,6 +29,7 @@
 <div style="margin-bottom:60px">
     <a class="btn btn-primary" href="{% url 'enviarMensaje' %}">ENVIAR MENSAJE</a>
     <a class="btn btn-primary" href="{% url 'verEnviados' %}">MENSAJES ENVIADOS</a>
+    <a class="btn btn-primary" href="{% url 'verNoLeidos' %}">MENSAJES NO LEIDOS</a>
 </div>
 <div style="color:white">
 
@@ -36,7 +37,7 @@
 <h2>Mis mensajes:</h2>
     <div style="font-style:italic; font-size:15px">
    
-    
+        {% if mensajes %}
         {% for m in mensajes %}
         {% if m.visto == 'N' %}
         <p style="border: ridge #FF5733 4px;">
@@ -55,18 +56,10 @@
         {% endfor %} 
 
     </div>
-
+        {% else %}
+        <div>Aun no tiene mensajes</div>
+        {% endif %}
 </div>
 
-<h1 style="color:white">Lista de usuarios</h1>
-<div style="color:white">
-    {% for u in usuarios %}
-
-            <td>
-                {{u.username}} {{u.id}} ,
-            </td>
-        
-    {% endfor %} 
-</div>    
 <div>  
 {% endblock %}

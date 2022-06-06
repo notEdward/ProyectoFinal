@@ -26,8 +26,8 @@
 {% endblock %}
 
 {% block contenidoQueCambia %}
-
-<form action="" method ="POST" id="contactForm">
+<a href="javascript:history.go(-1);">Volver atrás</a>
+<form action="{% url 'enviarMensaje' %}" method ="POST" id="contactForm">
     {% csrf_token %}  
     <div class="text-center">
         <h1 class="section-heading text-uppercase">Enviar mensaje</h2>
@@ -36,7 +36,7 @@
         <div class="col-md-6">
             <div class="form-group">
 
-                <input class="form-control" name="destinatario" type="text" placeholder="Destinatario" data-sb-validations="required" />
+                <input class="form-control" name="destinatario" type="text" placeholder="Destinatario" data-sb-validations="required" value="{{destinatario_user}}"/>
                 <div class="invalid-feedback" data-sb-feedback="destinatario:required">Destinatario</div>
             </div>
             <div class="form-group">

@@ -25,13 +25,51 @@
 </header>
 {% endblock %}
 
+
+
 {% block contenidoQueCambia %}
-{{context}}
-{% for anuncio in object_list %}
-<div style="color:white">
-<li>{{anuncio.mensaje}}</li>
+
+
+{% if request.user.is_superuser %}
+<div style="margin-bottom:100px">
+<li class="nav-item"><a class="btn btn-danger" href="{% url 'nuevoAnuncio' %}">NUEVO ANUNCIO SIMPLE</a></li>
 </div>
-{% endfor %}
+{% endif %}
+
+{% comment %} {% for anuncio in object_list %}
+<div style="color:white">
+<li>{{anuncio.mensaje|safe}}</li>
+
+
+                        <div style = "margin-left:1050px; font-style:italic;">
+                             Anunciado por {{ anuncio.creador_usuario }}
+                        </div>
+                        <div style = "margin-left:1050px; font-style:italic;">
+                             {{anuncio.fecha }}
+                       </div>
+                    <td>
+</div>                
+<hr>
+<br>        
+{% endfor %} {% endcomment %}
+ {% for anuncio in anuncios %}
+<div style="color:white">
+    <div>{{anuncio.mensaje|safe}}</div>
+    
+    
+                            <div style = "margin-left:1050px; font-style:italic;">
+                                 Anunciado por {{ anuncio.creador_usuario }}
+                            </div>
+                            <div style = "margin-left:1050px; font-style:italic;">
+                                 {{anuncio.fecha }}
+                           </div>
+                        <td>
+    </div>                
+    <hr style="color:white">
+    <br>
+    <br>
+    <br>   
+ {% endfor %} 
 
 <a href="javascript:history.go(-1);">Volver atrás</a>
 

@@ -28,11 +28,30 @@
     </div>
 </header>
 {% endblock %}
+{% block anuncios %}
+
+{% if request.path == "/" %}
+<div style="background-color:#FF9C33">
+        {{anuncio.mensaje|safe}}
+    
+    <div style = "margin-left:1550px; font-style:italic;">
+        Por {{ anuncio.creador_usuario}} {{ anuncio.fecha }}
+   </div>
+
+</div>
+{% endif %}
+{% endblock %}
 
 {% block contenidoQueCambia %}
-
-{% if error %}
+{% if unread %}
+{% comment %} <script>alert("Tenés {{unread}} mensajes sin leer.")</script>   {% endcomment %}
+<p style="border: groove #fff 2px; color:white">
+Tenes {{unread}} <a href="{% url 'mensajeria' %}">mensajes</a> sin leer.
+</p>
+{% endif %}
+{% if error or success %}
 <a href="javascript:history.go(-1);">Volver atrás</a>
+<a href="/">Volver al inicio</a>
 {% endif%}
 <div style="color:white">
             {% for p in posteos %}

@@ -27,12 +27,12 @@
 
 {% block contenidoQueCambia %}
 <div style="color:white">
-<h2>Mensajes enviados:</h2>
+<h2>Mensajes no leídos:</h2>
     <div style="font-style:italic; font-size:15px">
    
     
         {% for m in mensajes %}
-        <p style="border: ridge #fff 2px;">
+        <p style="border: ridge #FF5733 4px;">
         De: {{m.remitente_usuario}}
         <br>
         Para: 
@@ -41,7 +41,9 @@
         Mensaje:
         {{m.mensaje}}
         <br>
+        <a href="{% url 'marcarLeido' m.id %}">Marcar leído</a>
         </p>
+
         {% endfor %} 
         </p>
     </div>

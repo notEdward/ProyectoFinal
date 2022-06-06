@@ -1,28 +1,35 @@
 import datetime
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
-
 from AppDesafio.forms import UserRegistrationForm, UserEditForm, AvatarForm
+from mensajeria.models import Anuncio, Mensaje
 from .models import *
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
+from django.views.generic import ListView
 
 import os
 
-# Create your views here.
 
+#Inicio
 def inicio(request):
 
     posteos = Posteo.objects.all().order_by('id').reverse()
+    anuncio = Anuncio.objects.last()
+    #verifico mensajes sin leer para avisarle al usuario que tiene mensajes no leidos. 
     if request.user.is_authenticated:      
+        unread = Mensaje.objects.filter(destinatario_id=request.user.id, visto='N').count()   
         avatar = Avatar.objects.filter(user=request.user)
         if avatar:
-            return render(request, 'AppDesafio/inicio.html', {'posteos': posteos, 'url':avatar[0].avatar.url })
+            if unread > 0 :
+                return render(request, 'AppDesafio/inicio.html', {'posteos': posteos, 'anuncio':anuncio, 'unread':unread, 'url':avatar[0].avatar.url })
+
+            return render(request, 'AppDesafio/inicio.html', {'posteos': posteos, 'anuncio':anuncio, 'url':avatar[0].avatar.url })     
     
-    return render(request, 'AppDesafio/inicio.html', {'posteos': posteos})    
+    return render(request, 'AppDesafio/inicio.html', {'posteos': posteos, 'anuncio': anuncio})    
 
 #---- Posteos ----
 #---- AGREGAR -----
@@ -45,7 +52,7 @@ def agregarPost(request):
         except:
          return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Error en los datos.','error':'error', 'url':avatar[0].avatar.url })
          
-        return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Posteo creado exitosamente.', 'url':avatar[0].avatar.url })
+        return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Posteo creado exitosamente.', 'success':'success','url':avatar[0].avatar.url })
 
     return render(request, 'AppDesafio/nuevoPost.html', {'url':avatar[0].avatar.url})        
 #---- EDICION -----
@@ -53,7 +60,10 @@ def agregarPost(request):
 def editarPost(request, pk):
 
     avatar = Avatar.objects.filter(user=request.user)
-    posteo = Posteo.objects.get(id=pk)
+    try:
+        posteo = Posteo.objects.get(id=pk)
+    except:
+        return render(request, 'AppDesafio/inicio.html', {'mensaje': 'No hay páginas aún', 'error':'error', 'url':avatar[0].avatar.url} ) 
 
     if request.method == "POST":
         if len(request.FILES) != 0:
@@ -68,7 +78,7 @@ def editarPost(request, pk):
         except:
          return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Error en los datos.','error':'error', 'url':avatar[0].avatar.url })
 
-        return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Posteo editado exitosamente.', 'url':avatar[0].avatar.url })
+        return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Posteo editado exitosamente.','success':'success', 'url':avatar[0].avatar.url })
 
     return render(request, 'AppDesafio/editPost.html', {'posteo': posteo, 'url':avatar[0].avatar.url})
 
@@ -80,11 +90,11 @@ def borrarPost(request, pk):
     user = request.user
 #chequeo si el usuario se encuentra en el grupo de usuarios comunes.
     if user.groups.filter(name='Usuarios_Comunes').exists():
-        return render (request, 'AppDesafio/inicio.html', {'mensaje': 'NO PERMITIDO.', 'url':avatar[0].avatar.url })
+        return render (request, 'AppDesafio/inicio.html', {'mensaje': 'NO PERMITIDO.', 'error':'error','url':avatar[0].avatar.url })
     if len(posteo.imagen) > 0 :
         os.remove(posteo.imagen.path)
     posteo.delete()
-    return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Posteo eliminado exitosamente.', 'url':avatar[0].avatar.url })
+    return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Posteo eliminado exitosamente.', 'success':'success','url':avatar[0].avatar.url })
 
 #----- VER -----
 @login_required
@@ -113,7 +123,7 @@ def comentarPost(request, pk):
         comentario = Comentario(usuario = usuario, user_id = usuario_id, comentario = request.POST['texto'], fecha = datetime.datetime.now(), posteoId = pk)
         comentario.save()
 
-        return render(request, 'AppDesafio/inicio.html', {'mensaje':' Comentario agregado exitosamente.', 'url':avatar[0].avatar.url })
+        return render(request, 'AppDesafio/inicio.html', {'mensaje':' Comentario agregado exitosamente.', 'success':'success','url':avatar[0].avatar.url })
 
     if avatar:
          return render(request, 'AppDesafio/comentarPost.html', {'posteo': posteo, 'comentarios': comentarios, 'avatarComentario': avatarComentario, 'url':avatar[0].avatar.url})    
@@ -134,12 +144,12 @@ def login_request(request):
             if user is not None:
                 login(request, user)
                 avatar = Avatar.objects.filter(user=user)                
-                return render (request, 'AppDesafio/inicio.html', {'usuario': usuario, 'mensaje': 'Bienvenido al sistema', 'url':avatar[0].avatar.url })
+                return render (request, 'AppDesafio/inicio.html', {'usuario': usuario, 'mensaje': 'Bienvenido al sistema,' + ' ' + request.user.username, 'success':'success','url':avatar[0].avatar.url })
                    
             else:
-                return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Datos erróneos.' })
+                return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Datos erróneos.','error':'error' })
         else:
-            return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Datos erróneos, intente nuevamente.' })
+            return render (request, 'AppDesafio/inicio.html', {'mensaje': 'Datos erróneos, intente nuevamente.', 'error':'error' })
     
     else:
         formulario = AuthenticationForm()
@@ -156,9 +166,9 @@ def register(request):
                  user.save()
                  avatar = Avatar(user=user,avatar= 'avatar/anonymous-user-icon-2.jpg' )
                  avatar.save()
-                 return render (request, 'AppDesafio/inicio.html', {'mensaje':f'USUARIO: {username} creado exitosamente.' })
+                 return render (request, 'AppDesafio/inicio.html', {'mensaje':f'USUARIO: {username} creado exitosamente.','success':'success', })
          else:
-            return render (request, 'AppDesafio/inicio.html', {'mensaje': 'NO SE PUDO CREAR EL USUARIO.' })
+            return render (request, 'AppDesafio/inicio.html', {'mensaje': 'NO SE PUDO CREAR EL USUARIO.', 'error':'error' })
 
      else:
          formulario = UserRegistrationForm()
@@ -180,7 +190,7 @@ def editarPerfil(request):
             usuario.password2=informacion['password2']
             usuario.save()
 
-            return render(request, 'AppDesafio/inicio.html', {'usuario': usuario, 'mensaje': 'Perfil editado exitosamente.', 'url':avatar[0].avatar.url})
+            return render(request, 'AppDesafio/inicio.html', {'usuario': usuario, 'mensaje': 'Perfil editado exitosamente.', 'success':'success','url':avatar[0].avatar.url})
     else:
         formulario = UserEditForm(instance=usuario)
     return render(request, 'AppDesafio/editarPerfil.html',{'formulario':formulario, 'usuario':usuario.username, 'url':avatar[0].avatar.url})   
@@ -201,7 +211,8 @@ def agregarAvatar(request):
                 avatarViejo.delete()
              avatar = Avatar(user=user,avatar= formulario.cleaned_data['avatar'])
              avatar.save()
-             return render(request, 'AppDesafio/inicio.html', {'usuario': user , 'mensaje': 'Avatar cambiado exitosamente', 'url':avatar[0].avatar.url })
+             avatar = Avatar.objects.filter(user=request.user)
+             return render(request, 'AppDesafio/inicio.html', {'usuario': user , 'mensaje': 'Avatar cambiado exitosamente', 'success':'success', 'url':avatar[0].avatar.url })
     else:
         formulario=AvatarForm()
     return render(request, 'AppDesafio/agregarAvatar.html', {'formulario': formulario, 'usuario': user, 'url':avatar[0].avatar.url})     
@@ -211,7 +222,9 @@ def agregarAvatar(request):
 def about(request):
         if request.user.is_authenticated:      
            avatar = Avatar.objects.filter(user=request.user)
-        return render(request, 'AppDesafio/about.html', {'url':avatar[0].avatar.url} )
+           return render(request, 'AppDesafio/about.html', {'url':avatar[0].avatar.url} )
+
+    return render(request, 'AppDesafio/about.html')
 
 @login_required
 def pages(request):
@@ -219,7 +232,7 @@ def pages(request):
     user = request.user
     #chequeo si el usuario se encuentra en el grupo de usuarios comunes.
     if user.groups.filter(name='Usuarios_Comunes').exists():
-        return render (request, 'AppDesafio/inicio.html', {'mensaje': 'NO PERMITIDO.', 'url':avatar[0].avatar.url })
+        return render (request, 'AppDesafio/inicio.html', {'mensaje': 'NO PERMITIDO.','error':'error', 'url':avatar[0].avatar.url })
     posteos = Posteo.objects.all()
     return render(request, 'AppDesafio/pages.html', {'posteos':posteos, 'url':avatar[0].avatar.url} )
 
@@ -229,7 +242,7 @@ def detallePost(request, pk):
     user = request.user
     #chequeo si el usuario se encuentra en el grupo de usuarios comunes.
     if user.groups.filter(name='Usuarios_Comunes').exists():
-        return render (request, 'AppDesafio/inicio.html', {'mensaje': 'NO PERMITIDO.', 'url':avatar[0].avatar.url })
+        return render (request, 'AppDesafio/inicio.html', {'mensaje': 'NO PERMITIDO.', 'error':'error', 'url':avatar[0].avatar.url })
     #validamos que tenga un objeto, sino error.
     try:
         posteo = Posteo.objects.get(id=pk)
@@ -237,3 +250,6 @@ def detallePost(request, pk):
         return render(request, 'AppDesafio/inicio.html', {'mensaje': 'No hay páginas aún', 'error':'error', 'url':avatar[0].avatar.url} )   
 
     return render(request, 'AppDesafio/pages.html', {'posteo':posteo, 'url':avatar[0].avatar.url} )   
+
+
+

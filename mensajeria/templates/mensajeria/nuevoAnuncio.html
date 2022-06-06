@@ -20,33 +20,31 @@
 <header class="masthead">
     <div class="container">
         <div class="masthead-subheading"></div>
-        <div class="masthead-heading text-uppercase" style="margin-right: 1000px">Mensajeria</div>
+        <div class="masthead-heading text-uppercase" style="margin-right: 1000px">ANUNCIOS!</div>
     </div>
 </header>
 {% endblock %}
+{% if request.user.is_superuser %}
+<div style="margin-bottom:60px">
+    <a class="btn btn-DANGER" href="{% url 'nuevoAnuncio' %}">NUEVO ANUNCIO</a>
+</div>
+{% endif %}
 
 {% block contenidoQueCambia %}
-<div style="color:white">
-<h2>Mensajes enviados:</h2>
-    <div style="font-style:italic; font-size:15px">
-   
-    
-        {% for m in mensajes %}
-        <p style="border: ridge #fff 2px;">
-        De: {{m.remitente_usuario}}
-        <br>
-        Para: 
-        {{m.destinatario_usuario}}
-        <br>
-        Mensaje:
-        {{m.mensaje}}
-        <br>
-        </p>
-        {% endfor %} 
-        </p>
-    </div>
 
+<div class="card-body">
+    <form action="" method="POST" style="color:white">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="" class="form-label">Anuncio</label>
+            <input type="text" Required name="anuncio" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
 </div>
+
+
 <a href="javascript:history.go(-1);">Volver atrás</a>
-<div>  
+
 {% endblock %}
