@@ -104,6 +104,7 @@ def verPost(request):
     
     user=User.objects.get(username=request.user)
     avatar = Avatar.objects.filter(user=request.user)
+    #obtenemos posteos del ultimo al primero
     posteos = Posteo.objects.filter(usuarioCreador=user).order_by('id').reverse()
     if avatar:
          return render(request, 'AppDesafio/misPost.html', {'posteos': posteos, 'url':avatar[0].avatar.url})    
