@@ -21,6 +21,9 @@
 
 <form method="POST" style="color:white"> {% csrf_token %}
     {{formulario.as_p}}
+    <br>
+    <div style="font-style:italic; font-size:15px">* Contraseña de mínimo 8 caracteres alfanumérico incluyendo 1 mayúscula.</div> 
+    <br>
     <input type="submit" class="btn btn-primary btn-xl text-uppercase" value = "REGISTRO">
     
 </form>

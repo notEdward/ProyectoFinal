@@ -14,7 +14,7 @@ from django.views.generic import ListView
 from AppDesafio.forms import AvatarForm
 
 
-# Create your views here.
+#Index de mensajeria.
 @login_required
 def mensajeria(request):
     
@@ -48,6 +48,7 @@ def enviarMensaje(request, pk=None):
 
     return render(request, 'mensajeria/enviarMensaje.html',  {'url':avatar[0].avatar.url })
 
+#Mensajes Enviados
 @login_required
 def verEnviados(request):
     avatar = Avatar.objects.filter(user=request.user)  
@@ -55,21 +56,23 @@ def verEnviados(request):
 
     return render(request, 'mensajeria/verEnviados.html',  {'mensajes': mensajes, 'url':avatar[0].avatar.url })
 
+#Ver no leidos
 @login_required
 def verNoLeidos(request):
     avatar = Avatar.objects.filter(user=request.user)  
     mensajes = Mensaje.objects.filter(destinatario_id=request.user.id, visto='N')
     return render(request, 'mensajeria/verNoLeidos.html',  {'mensajes': mensajes, 'url':avatar[0].avatar.url })
 
+#Marcar leidos
 @login_required
 def marcarLeido(request, pk):
-    avatar = Avatar.objects.filter(user=request.user)
     mensaje = Mensaje.objects.get(id=pk)
     mensaje.visto = 'S'
     mensaje.save()
 
     return HttpResponseRedirect('/mensajeria')
 
+#Hacer un anuncio simple (solo admin)
 @login_required
 def nuevoAnuncio(request):
     user = request.user
@@ -92,6 +95,7 @@ def nuevoAnuncio(request):
 
     return render(request, 'mensajeria/nuevoAnuncio.html',  {'url':avatar[0].avatar.url })
 
+#Ver anuncios
 @login_required
 def verAnuncios(request):
     

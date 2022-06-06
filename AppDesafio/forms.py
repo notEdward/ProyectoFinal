@@ -19,8 +19,8 @@ class UserEditForm(UserCreationForm):
     password1 = forms.CharField(required=False, label="Modificar Contraseña", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     password2 = forms.CharField(required=False, label="Confirmar contraseña", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
-    last_name = forms.CharField(required=False, label="Modificar Apellido", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    first_name = forms.CharField(required=False, label="Modificar Nombre", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(required=False, label="Modificar Apellido", widget=forms.TextInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(required=False, label="Modificar Nombre", widget=forms.TextInput(attrs={'class': 'form-control'}))
     
     class Meta:
         model = User

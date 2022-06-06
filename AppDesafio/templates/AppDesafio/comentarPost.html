@@ -29,6 +29,14 @@
             {% else %}
                                   
             {% endif %}
+
+                        <div style = "margin-left:1050px; font-style:italic;">
+                             Creado por {{ posteo.usuarioCreador }}
+                        </div>
+                        <div style = "margin-left:1050px; font-style:italic;">
+                             {{ posteo.fecha }}
+                       </div>
+                    <hr>
             
             <div>
             <td>
@@ -38,7 +46,7 @@
                   
                     <p><textarea name="texto" cols="40" rows="5"></textarea></p>
                   
-                    <p><input type="submit" value="Enviar"></p>
+                    <p><button style="margin-top:10px" class="btn btn-primary btn text-uppercase" id="submitButton" type="submit">Enviar</button></p>
                   
                   </form>
             </td>

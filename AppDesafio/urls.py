@@ -23,7 +23,7 @@ path('agregarPost', agregarPost, name='agregarPost'),
 path('editarPost/<str:pk>', editarPost, name='editarPost'),
 path('borrarPost/<str:pk>', borrarPost, name='borrarPost'),
 path('comentarPost/<str:pk>', comentarPost, name='comentarPost'),
-path('verPost', verPost, name='verPost'),
+path('misPost', verPost, name='verPost'),
 
 #-----ABOUT------
 path('about', about, name='about'),

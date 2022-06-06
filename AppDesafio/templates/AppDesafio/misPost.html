@@ -35,7 +35,7 @@
                     
                     <div>
                     <td>
-                        <a href="{% url 'editarPost' p.id %}" class="btn btn-success badge">EDIT</a>
+                        <a href="{% url 'editarPost' p.id %}" class="btn btn-success badge">EDITAR</a>
                         <a href="{% url 'borrarPost' p.id %}" class="btn btn-danger badge">BORRAR</a>
                     </td>
                 </div>
@@ -47,6 +47,8 @@
 <hr>
 <br>
 <br>
-
+{% if not posteos%}
+<div><h2>Aun no tiene posteos</h2></div>
+{% endif %}
 
 {% endblock %}

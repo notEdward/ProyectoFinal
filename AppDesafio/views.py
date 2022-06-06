@@ -88,9 +88,11 @@ def borrarPost(request, pk):
     avatar = Avatar.objects.filter(user=request.user)
     posteo = Posteo.objects.get(id=pk)
     user = request.user
+#si no es el posteo creado por el mismo usuario
+    if posteo.usuarioCreador != user.username:
 #chequeo si el usuario se encuentra en el grupo de usuarios comunes.
-    if user.groups.filter(name='Usuarios_Comunes').exists():
-        return render (request, 'AppDesafio/inicio.html', {'mensaje': 'NO PERMITIDO.', 'error':'error','url':avatar[0].avatar.url })
+        if user.groups.filter(name='Usuarios_Comunes').exists():
+            return render (request, 'AppDesafio/inicio.html', {'mensaje': 'NO PERMITIDO.', 'error':'error','url':avatar[0].avatar.url })
     if len(posteo.imagen) > 0 :
         os.remove(posteo.imagen.path)
     posteo.delete()
@@ -224,7 +226,7 @@ def about(request):
            avatar = Avatar.objects.filter(user=request.user)
            return render(request, 'AppDesafio/about.html', {'url':avatar[0].avatar.url} )
 
-    return render(request, 'AppDesafio/about.html')
+        return render(request, 'AppDesafio/about.html')
 
 @login_required
 def pages(request):
