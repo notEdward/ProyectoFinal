@@ -45,12 +45,19 @@
 <div style="color:white">
 
     <div> <h1>{{ posteo.titulo }}</h1></div>
+    <div style="font-style:italic; font-size:15px">{{ posteo.subtitulo }}</div>
     <br>                    
      {% if posteo.imagen %}
      <p style="display:flex">
              <img src="{{ posteo.imagen.url }}" alt="" style="max-width:300px">
            <span style="align-self:center; margin-left:60px"> {{ posteo.descripcion }}</span> 
      </p>
+     <div style = "margin-left:1050px; font-style:italic;">
+        Creado por {{ posteo.usuarioCreador }}
+     </div>
+     <div style = "margin-left:1050px; font-style:italic;">
+        {{ posteo.fecha }}
+     </div>
      {% else %}
                            
      {% endif %}
