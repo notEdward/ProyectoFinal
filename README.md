@@ -39,6 +39,7 @@ La aplicación cuenta con
 ●	Validaciones:
 
 La aplicación además, posee validaciones para que un usuario común no tenga acceso a donde si los tiene el admin, estos usuarios al ser creados, son asignados automaticamente un grupo "Usuarios comunes", si bien no ven las opciones que tiene un admin, si intentan ingresar por URL no podrán ya que hay validaciones en todo el sitio. Lo mismo sucede con un usuario no registrado, este será siempre redirigido a la pagina de login si intenta realizar alguna acción que no tiene permitida como usuario no-registrado.
+
 La aplicación cuenta con un sector de anuncios especialmente para administradores, donde los mismos tendrán la posibilidad de hacer un anuncio rápido a traves de la aplicación con un formato básico, o bien con formato de texto avanzado (texto enriquecido) a través de la administración de Django. Los anuncios creados son vistos por todos los visitantes de la pagina en el inicio, ya sean usuarios registrados o no.
 
 También cuenta con un sistema de comentarios donde podremos opinar de los posteos que realizan los usuarios estableciendo así también una comunicación donde se podrán expresar opiniones, mostrando el usuario, el comentario y la fecha, además los usuarios con selecconables y esto nos da la opcion de enviarles un mensaje privado para comunicarnos de una manera más directa.
